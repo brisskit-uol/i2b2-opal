@@ -14,12 +14,12 @@ opal_address = '192.168.56.100:8080' #opal IP address
 opal_username = 'administrator'      #opal username for this project
 opal_password = 'password'           #opal password for above username
 opal_project = 'i2b2'                #opal project that tables get put into - this must already exist
-i2b2_ontology_file = 'i2b2_ont.csv'  #input i2b2 ontology file
+i2b2_ontology_file = 'sample_data/i2b2_ont.csv'  #input i2b2 ontology file
+temp_dir = 'temp'                    #temp dir where temp files get stored
 
 #Make a temp directory to put all the temp JSON and CSV files.
-#os.mkdir('temp')
-root_dir = os.getcwd()
-
+if not os.path.exists(temp_dir):
+    os.makedirs(temp_dir)
 
 #####################################################
 #Read in the data from the i2b2 export file and store it in some lists.
