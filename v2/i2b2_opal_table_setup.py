@@ -14,6 +14,7 @@ opal_address = '192.168.56.100:8080' #opal IP address
 opal_username = 'administrator'      #opal username for this project
 opal_password = 'password'           #opal password for above username
 opal_project = 'i2b2'                #opal project that tables get put into - this must already exist
+opal_table_name = 'i2b2_import'
 i2b2_ontology_file = 'sample_data/i2b2_ont.csv'  #input i2b2 ontology file
 temp_dir = 'temp'                    #temp dir where temp files get stored
 
@@ -51,18 +52,16 @@ valuetype.pop(0)
 #Set up the table first
 print 'Setting up the table'
 
-table_name = 'i2b2_import'
-
 #Table definition
-this_table_dic = {'entityType': 'Patient', 'name': table_name}
+this_table_dic = {'entityType': 'Patient', 'name': opal_table_name}
 
 #save it as a json file
-this_table_json_name = 'temp/'+table_name+'_table.json'
+this_table_json_name = 'temp/'+opal_table_name+'_table.json'
 with open(this_table_json_name, 'w') as fp:
     json.dump(this_table_dic, fp, indent=4)
 
 #Push the above json file into the opal API, this will make an empty table i.e. no variables.
-cmd = 'opal rest -o http://'+opal_address+' --user '+opal_username+' --password '+opal_password+' -m POST -ct "application/json" /datasource/'+opal_project+'/tables < temp/'+table_name+'_table.json'
+cmd = 'opal rest -o http://'+opal_address+' --user '+opal_username+' --password '+opal_password+' -m POST -ct "application/json" /datasource/'+opal_project+'/tables < temp/'+opal_table_name+'_table.json'
 #print cmd
 os.system(cmd)
 
@@ -106,9 +105,9 @@ for i in range(0, len(label)):
     all_vars.append(this_var)
 
 #save it as a json file
-this_variable_json_name = 'temp/'+table_name+'_vars.json'
+this_variable_json_name = 'temp/'+opal_table_name+'_vars.json'
 with open(this_variable_json_name, 'w') as fp:
     json.dump(all_vars, fp)
 
-cmd = 'opal rest -o http://'+opal_address+' --user '+opal_username+' --password '+opal_password+' -m POST -ct "application/json" /datasource/'+opal_project+'/table/'+table_name+'/variables < '+this_variable_json_name
+cmd = 'opal rest -o http://'+opal_address+' --user '+opal_username+' --password '+opal_password+' -m POST -ct "application/json" /datasource/'+opal_project+'/table/'+opal_table_name+'/variables < '+this_variable_json_name
 os.system(cmd)
