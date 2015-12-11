@@ -71,15 +71,24 @@ os.system(cmd)
 #Now do the variables
 print 'Setting up the variables'
 all_vars=[]
+
+this_var = {
+"name": "id",
+"entityType": "Patient",
+"valueType": "text",
+"isRepeatable": False,
+"index": 1
+}
+
+all_vars.append(this_var)
+
 for i in range(0, len(label)):
-    name='i2b2_'+str(i)
 
     this_var = {
     "name": snomed[i],
     "entityType": "Patient",
     "valueType": "text",
     "isRepeatable": False,
-    "index": 1,
     "attributes": [
     {
         "name": "label",
